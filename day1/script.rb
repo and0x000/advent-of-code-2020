@@ -2,11 +2,11 @@
 
 require 'benchmark'
 
-numbers = File.open('input').readlines.map( & :strip).reject( & :empty?).map { | x | Integer(x)}
+numbers = File.open('input').readlines.map(& :strip).reject(& :empty?).map { |x| Integer(x) }
 
 numbers_loop1 = numbers.dup
 
-Benchmark.bm do | x | 
+Benchmark.bm do |x|
   x.report do
     while (number_1 = numbers_loop1.pop)
       numbers_loop2 = numbers_loop1.dup
