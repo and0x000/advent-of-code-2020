@@ -3,11 +3,13 @@
 lines = File.open('input').readlines.map(&:strip)
 
 def itterate_part1(lines, type_o_bag)
-  return [] if type_o_bag == ''
+  return 0 if type_o_bag == ''
 
-  lines_containing_bag = lines.select { |line| line.match(/.+#{type_o_bag}.*/) }
-  outer_bags = lines_containing_bag.map { |line| line.split('s contain').first }
-  outer_bags.count + outer_bags.map { |bag| itterate_part1(lines, bag) }.count
+  bags_containing_bag = lines.map do |line|
+    line.match(/(.+) bags contain.+#{type_o_bag}.*/)&.captures
+  end.flatten.reject(&:nil?)
+
+  bags_containing_bag << bags_containing_bag.map { |bag| itterate_part1(lines, bag) }
 end
 
-puts itterate_part1 lines, 'shiny gold bag'
+puts itterate_part1(lines, 'shiny gold bag').flatten.uniq.count
